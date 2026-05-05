@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Component Catalogue</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --surface2: #F0EEE8;
+    --border: #E2DED6;
+    --border-strong: #C8C3B8;
+    --text: #1A1916;
+    --text-muted: #6B6760;
+    --text-faint: #9E9B96;
+    --accent: #1A1916;
+    --payments-bg: #E6F4EE;
+    --payments-text: #0D6645;
+    --payments-border: #A8D9BF;
+    --rental-bg: #EAF0FB;
+    --rental-text: #1A4FA3;
+    --rental-border: #AABFE8;
+    --identity-bg: #FDF3E3;
+    --identity-text: #8A5200;
+    --identity-border: #F0C97A;
+    --kitchen-bg: #F5F0FB;
+    --kitchen-text: #5B2FA0;
+    --kitchen-border: #C9AEED;
+    --live-bg: #E6F4EE;
+    --live-text: #0D6645;
+    --live-dot: #22C07A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-left: 10px;
+    color: var(--text-muted);
+    font-weight: 400;
+    vertical-align: middle;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    height: 100%;
+  }
+  .nav-tab {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active {
+    color: var(--text);
+    border-bottom-color: var(--text);
+    font-weight: 500;
+  }
+
+  /* LAYOUT */
+  .page { display: none; }
+  .page.active { display: block; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+  /* HERO */
+  .hero {
+    padding: 3rem 2rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.8px;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .hero p {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* TOOLBAR */
+  .toolbar {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 1.5rem;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+    max-width: 340px;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-faint);
+    pointer-events: none;
+  }
+  .search-wrap input {
+    width: 100%;
+    height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    padding: 0 12px 0 36px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-wrap input:focus { border-color: var(--border-strong); }
+  .search-wrap input::placeholder { color: var(--text-faint); }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    height: 38px;
+    padding: 0 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .pill:hover { border-color: var(--border-strong); color: var(--text); }
+  .pill.active {
+    background: var(--text);
+    border-color: var(--text);
+    color: #fff;
+    font-weight: 500;
+  }
+  .result-count {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 1rem;
+    font-size: 13px;
+    color: var(--text-faint);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* GRID */
+  .grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+  }
+  .card-badges { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; flex-shrink: 0; }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.3px;
+  }
+  .badge-payments { background: var(--payments-bg); color: var(--payments-text); border: 1px solid var(--payments-border); }
+  .badge-rental { background: var(--rental-bg); color: var(--rental-text); border: 1px solid var(--rental-border); }
+  .badge-identity { background: var(--identity-bg); color: var(--identity-text); border: 1px solid var(--identity-border); }
+  .badge-general { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+  .status-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--live-text);
+    background: var(--live-bg);
+    border: 1px solid var(--payments-border);
+    border-radius: 20px;
+    padding: 3px 9px;
+  }
+  .status-live::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--live-dot);
+    display: inline-block;
+  }
+  .status-kitchen {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--kitchen-text);
+    background: var(--kitchen-bg);
+    border: 1px solid var(--kitchen-border);
+    border-radius: 20px;
+    padding: 3px 9px;
+  }
+  .status-kitchen::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--kitchen-text);
+    opacity: 0.5;
+    display: inline-block;
+  }
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px;
+    padding: 3px 9px;
+    background: var(--surface2);
+    color: var(--text-faint);
+    border-radius: 5px;
+    font-family: 'DM Mono', monospace;
+  }
+  .card-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-customers {
+    font-size: 12px;
+    color: var(--text-faint);
+    font-family: 'DM Mono', monospace;
+  }
+  .card-arrow {
+    font-size: 16px;
+    color: var(--text-faint);
+    transition: transform 0.15s;
+  }
+  .card:hover .card-arrow { transform: translateX(3px); }
+  .empty {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-faint);
+    font-size: 14px;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,25,22,0.45);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    max-width: 620px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.15s;
+  }
+  .modal-close:hover { background: var(--border); color: var(--text); }
+  .modal-name {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    margin-bottom: 8px;
+    padding-right: 2rem;
+    line-height: 1.3;
+  }
+  .modal-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .modal-section { margin-bottom: 1.5rem; }
+  .modal-section h3 {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+  .modal-section p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .modal-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .customer-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .customer-chip {
+    font-size: 13px;
+    padding: 5px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .no-customers {
+    font-size: 13px;
+    color: var(--text-faint);
+    font-style: italic;
+  }
+
+  /* PARTNERS PAGE */
+  .section-title {
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-faint);
+    margin-bottom: 1rem;
+  }
+  .partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    margin-bottom: 2.5rem;
+  }
+  .partner-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.15s;
+  }
+  .partner-card:hover { border-color: var(--border-strong); }
+  .partner-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .partner-name { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; }
+  .partner-type {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--surface2);
+    color: var(--text-faint);
+    border: 1px solid var(--border);
+  }
+  .partner-components { display: flex; gap: 6px; flex-wrap: wrap; }
+  .partner-comp-tag {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 3px 9px;
+    border-radius: 5px;
+    background: var(--rental-bg);
+    color: var(--rental-text);
+    border: 1px solid var(--rental-border);
+  }
+  .partner-none {
+    font-size: 13px;
+    color: var(--text-faint);
+    font-style: italic;
+  }
+  .partner-contact {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-faint);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 2.5rem;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+  }
+  .stat-label { font-size: 12px; color: var(--text-faint); font-family: 'DM Mono', monospace; margin-bottom: 4px; }
+  .stat-value { font-size: 26px; font-weight: 600; letter-spacing: -0.8px; color: var(--text); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Components <span>catalogue</span></a>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showPage('catalogue')">Catalogue</div>
+    <div class="nav-tab" onclick="showPage('partners')">Partners & Customers</div>
+  </div>
+</nav>
+
+<!-- CATALOGUE PAGE -->
+<div class="page active" id="page-catalogue">
+  <div class="hero">
+    <h1>Component catalogue</h1>
+    <p>Browse and search all available web components — live builds and those in the kitchen.</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10.5 10.5L13.5 13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input type="text" id="search" placeholder="Search components, tags..." oninput="renderCatalogue()" />
+    </div>
+    <div class="filters" id="filters"></div>
+  </div>
+
+  <div class="result-count" id="result-count"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- PARTNERS PAGE -->
+<div class="page" id="page-partners">
+  <div class="container">
+    <div class="stats-bar" id="stats-bar"></div>
+    <div class="section-title">Partners & customers</div>
+    <div class="partners-grid" id="partners-grid"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const components = [
+  {
+    id: 1,
+    name: "Tenant contract signing & first payment",
+    category: "rental",
+    status: "live",
+    desc: "End-to-end onboarding flow for new tenants. Covers digital contract signing, identity capture, and initial payment processing in a single guided session.",
+    tags: ["contract", "e-signature", "payments", "onboarding"],
+    journey: "Tenant receives invite link → reviews and signs tenancy agreement → completes identity verification → makes first payment → confirmation issued.",
+    customers: ["Acme Lettings", "HomeFlow"]
+  },
+  {
+    id: 2,
+    name: "RNPM application & income verification",
+    category: "rental",
+    status: "live",
+    desc: "Handles the full RNPM application journey — collecting applicant details, gathering income documents, and running verification checks before returning a decision.",
+    tags: ["RNPM", "income check", "application", "verification"],
+    journey: "Applicant starts form → enters personal and employment details → uploads income evidence → automated verification runs → decision returned to operator.",
+    customers: ["HomeFlow"]
+  },
+  {
+    id: 3,
+    name: "First payment only",
+    category: "payments",
+    status: "live",
+    desc: "Lightweight standalone component for collecting an initial payment. No contract flow, no onboarding steps — for use where those steps have already been completed upstream.",
+    tags: ["payments", "lightweight", "standalone", "first payment"],
+    journey: "User lands on payment screen → amount displayed → payment method entered → payment processed → success or failure screen shown.",
+    customers: ["Acme Lettings", "HomeFlow", "RentReady"]
+  }
+];
+
+const partners = [
+  { id: 1, name: "Acme Lettings", type: "Customer", components: [1, 3], contact: "ops@acmelettings.com" },
+  { id: 2, name: "HomeFlow", type: "Partner", components: [1, 2, 3], contact: "integrations@homeflow.io" },
+  { id: 3, name: "RentReady", type: "Customer", components: [3], contact: "tech@rentready.co.uk" }
+];
+
+const catFilters = [
+  { key: "all", label: "All" },
+  { key: "live", label: "Live" },
+  { key: "kitchen", label: "In the kitchen" },
+  { key: "payments", label: "Payments" },
+  { key: "rental", label: "Rental" },
+  { key: "identity", label: "Identity" }
+];
+
+let activeFilter = "all";
+
+function catLabel(c) {
+  return { payments: "Payments", rental: "Rental", identity: "Identity" }[c] || c;
+}
+function badgeClass(c) {
+  return { payments: "badge-payments", rental: "badge-rental", identity: "badge-identity" }[c] || "badge-general";
+}
+
+function renderFilters() {
+  document.getElementById("filters").innerHTML = catFilters.map(f =>
+    `<button class="pill${activeFilter === f.key ? " active" : ""}" onclick="setFilter('${f.key}')">${f.label}</button>`
+  ).join("");
+}
+
+function setFilter(key) { activeFilter = key; renderFilters(); renderCatalogue(); }
+
+function renderCatalogue() {
+  const q = document.getElementById("search").value.toLowerCase().trim();
+  const filtered = components.filter(c => {
+    if (activeFilter === "live" && c.status !== "live") return false;
+    if (activeFilter === "kitchen" && c.status !== "kitchen") return false;
+    if (activeFilter !== "all" && activeFilter !== "live" && activeFilter !== "kitchen" && c.category !== activeFilter) return false;
+    if (q && !c.name.toLowerCase().includes(q) && !c.desc.toLowerCase().includes(q) && !c.tags.some(t => t.toLowerCase().includes(q))) return false;
+    return true;
+  });
+
+  document.getElementById("result-count").textContent = `${filtered.length} component${filtered.length !== 1 ? "s" : ""}`;
+
+  if (!filtered.length) {
+    document.getElementById("grid").innerHTML = `<div class="empty">No components match your search.</div>`;
+    return;
+  }
+
+  document.getElementById("grid").innerHTML = filtered.map(c => `
+    <div class="card" onclick="openModal(${c.id})">
+      <div class="card-header">
+        <div class="card-name">${c.name}</div>
+        <div class="card-badges">
+          <span class="badge ${badgeClass(c.category)}">${catLabel(c.category)}</span>
+          <span class="${c.status === 'live' ? 'status-live' : 'status-kitchen'}">${c.status === 'live' ? 'live' : 'in kitchen'}</span>
+        </div>
+      </div>
+      <div class="card-desc">${c.desc}</div>
+      <div class="card-tags">${c.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+      <div class="card-footer">
+        <span class="card-customers">${c.customers.length} customer${c.customers.length !== 1 ? "s" : ""}</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>
+  `).join("");
+}
+
+function openModal(id) {
+  const c = components.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById("modal").innerHTML = `
+    <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">✕</button>
+    <div class="modal-name">${c.name}</div>
+    <div class="modal-meta">
+      <span class="badge ${badgeClass(c.category)}">${catLabel(c.category)}</span>
+      <span class="${c.status === 'live' ? 'status-live' : 'status-kitchen'}">${c.status === 'live' ? 'live' : 'in kitchen'}</span>
+    </div>
+    <div class="modal-section">
+      <h3>Description</h3>
+      <p>${c.desc}</p>
+    </div>
+    <div class="modal-section">
+      <h3>User journey</h3>
+      <p>${c.journey}</p>
+    </div>
+    <div class="modal-section">
+      <h3>Tags</h3>
+      <div class="modal-tags">${c.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+    </div>
+    <div class="modal-section">
+      <h3>Customers using this</h3>
+      <div class="customer-chips">${c.customers.length ? c.customers.map(cu => `<span class="customer-chip">${cu}</span>`).join("") : '<span class="no-customers">No customers yet</span>'}</div>
+    </div>
+  `;
+  document.getElementById("modal-overlay").classList.add("open");
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById("modal-overlay")) {
+    document.getElementById("modal-overlay").classList.remove("open");
+  }
+}
+
+function renderPartners() {
+  const liveCount = components.filter(c => c.status === "live").length;
+  const kitchenCount = components.filter(c => c.status === "kitchen").length;
+  document.getElementById("stats-bar").innerHTML = `
+    <div class="stat-card"><div class="stat-label">Total components</div><div class="stat-value">${components.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Live</div><div class="stat-value">${liveCount}</div></div>
+    <div class="stat-card"><div class="stat-label">In the kitchen</div><div class="stat-value">${kitchenCount}</div></div>
+    <div class="stat-card"><div class="stat-label">Partners & customers</div><div class="stat-value">${partners.length}</div></div>
+  `;
+
+  document.getElementById("partners-grid").innerHTML = partners.map(p => {
+    const compNames = p.components.map(cid => {
+      const comp = components.find(c => c.id === cid);
+      return comp ? `<span class="partner-comp-tag">${comp.name}</span>` : "";
+    }).join("");
+    return `
+      <div class="partner-card">
+        <div class="partner-header">
+          <div class="partner-name">${p.name}</div>
+          <span class="partner-type">${p.type}</span>
+        </div>
+        <div class="partner-components">${compNames || '<span class="partner-none">No components assigned</span>'}</div>
+        <div class="partner-contact">${p.contact}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'partners') renderPartners();
+}
+
+renderFilters();
+renderCatalogue();
+</script>
+</body>
+</html>
