@@ -15,12 +15,14 @@
     --text: #1A1916;
     --text-muted: #6B6760;
     --text-faint: #9E9B96;
-    --payments-bg: #EAF0FB; --payments-text: #1A4FA3; --payments-border: #AABFE8;
-    --rental-bg: #E6F4EE; --rental-text: #0D6645; --rental-border: #A8D9BF;
-    --identity-bg: #FDF3E3; --identity-text: #8A5200; --identity-border: #F0C97A;
-    --payment2-bg: #F5F0FB; --payment2-text: #5B2FA0; --payment2-border: #C9AEED;
-    --live-bg: #E6F4EE; --live-text: #0D6645; --live-border: #A8D9BF; --live-dot: #22C07A;
-    --dev-bg: #F5F0FB; --dev-text: #5B2FA0; --dev-border: #C9AEED; --dev-dot: #9B6FD4;
+    --blue-bg: #EAF0FB; --blue-text: #1A4FA3; --blue-border: #AABFE8;
+    --green-bg: #E6F4EE; --green-text: #0D6645; --green-border: #A8D9BF;
+    --amber-bg: #FDF3E3; --amber-text: #8A5200; --amber-border: #F0C97A;
+    --purple-bg: #F5F0FB; --purple-text: #5B2FA0; --purple-border: #C9AEED;
+    --teal-bg: #E1F5F2; --teal-text: #0F6E5F; --teal-border: #9FD9CF;
+    --coral-bg: #FAECE7; --coral-text: #8A3010; --coral-border: #F5C4B3;
+    --live-dot: #22C07A;
+    --dev-dot: #9B6FD4;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
@@ -53,7 +55,6 @@
   .pill.active { background: var(--text); border-color: var(--text); color: #fff; font-weight: 500; }
 
   .result-count { max-width: 1100px; margin: 0 auto; padding: 0 2rem 0.75rem; font-size: 12px; color: var(--text-faint); font-family: 'DM Mono', monospace; }
-
   .grid { max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
 
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem 1.5rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; display: flex; flex-direction: column; gap: 11px; }
@@ -63,17 +64,18 @@
   .card-badges { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; flex-shrink: 0; }
 
   .badge { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; white-space: nowrap; font-family: 'DM Mono', monospace; letter-spacing: 0.2px; }
-  .badge-documents { background: var(--payments-bg); color: var(--payments-text); border: 1px solid var(--payments-border); }
-  .badge-signing { background: var(--rental-bg); color: var(--rental-text); border: 1px solid var(--rental-border); }
-  .badge-qualification { background: var(--identity-bg); color: var(--identity-text); border: 1px solid var(--identity-border); }
-  .badge-payment { background: var(--payment2-bg); color: var(--payment2-text); border: 1px solid var(--payment2-border); }
-  .badge-general { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+  .badge-documents  { background: var(--blue-bg);   color: var(--blue-text);   border: 1px solid var(--blue-border); }
+  .badge-signing    { background: var(--green-bg);  color: var(--green-text);  border: 1px solid var(--green-border); }
+  .badge-qualification { background: var(--amber-bg); color: var(--amber-text); border: 1px solid var(--amber-border); }
+  .badge-payment    { background: var(--purple-bg); color: var(--purple-text); border: 1px solid var(--purple-border); }
+  .badge-api        { background: var(--teal-bg);   color: var(--teal-text);   border: 1px solid var(--teal-border); }
+  .badge-notification { background: var(--coral-bg); color: var(--coral-text); border: 1px solid var(--coral-border); }
 
   .status-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-family: 'DM Mono', monospace; border-radius: 20px; padding: 3px 9px; }
   .status-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-  .status-live { background: var(--live-bg); color: var(--live-text); border: 1px solid var(--live-border); }
+  .status-live { background: var(--green-bg); color: var(--green-text); border: 1px solid var(--green-border); }
   .status-live::before { background: var(--live-dot); }
-  .status-dev { background: var(--dev-bg); color: var(--dev-text); border: 1px solid var(--dev-border); }
+  .status-dev { background: var(--purple-bg); color: var(--purple-text); border: 1px solid var(--purple-border); }
   .status-dev::before { background: var(--dev-dot); opacity: 0.7; }
 
   .card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
@@ -93,7 +95,6 @@
   .modal-close:hover { background: var(--border); color: var(--text); }
   .modal-name { font-size: 20px; font-weight: 600; letter-spacing: -0.4px; margin-bottom: 10px; padding-right: 2.5rem; line-height: 1.3; }
   .modal-meta { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-  .modal-section { margin-bottom: 1.4rem; }
   .modal-label { font-size: 11px; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-faint); margin-bottom: 7px; }
   .modal-text { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
   .modal-divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
@@ -117,7 +118,7 @@
   .partner-name { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; }
   .partner-type { font-size: 11px; font-family: 'DM Mono', monospace; padding: 3px 9px; border-radius: 20px; background: var(--surface2); color: var(--text-faint); border: 1px solid var(--border); }
   .partner-comps { display: flex; gap: 6px; flex-wrap: wrap; }
-  .partner-comp { font-size: 11px; font-family: 'DM Mono', monospace; padding: 3px 9px; border-radius: 5px; background: var(--rental-bg); color: var(--rental-text); border: 1px solid var(--rental-border); }
+  .partner-comp { font-size: 11px; font-family: 'DM Mono', monospace; padding: 3px 9px; border-radius: 5px; background: var(--green-bg); color: var(--green-text); border: 1px solid var(--green-border); }
   .partner-contact { font-size: 12px; color: var(--text-faint); font-family: 'DM Mono', monospace; margin-top: 10px; }
 </style>
 </head>
@@ -172,7 +173,8 @@ const components = [
     fileTypes: "PDF, JPG, JPEG, PNG",
     limitations: "Max file size 5MB",
     customers: [
-      { name: "Property Finder", journey: "Tenants upload supporting documents as part of the RNPM application process — including payslips, bank statements and ID." }
+      { name: "Property Finder", journey: "Tenants upload supporting documents as part of the RNPM application process — including payslips, bank statements and ID." },
+      { name: "Modon", journey: "Tenants submit required documentation during the Modon onboarding process, supporting identity and income verification." }
     ]
   },
   {
@@ -216,12 +218,54 @@ const components = [
     customers: [
       { name: "Modon", journey: "Tenant makes their first payment by card and sets up a recurring payment method — either card or Direct Debit — for future rent, without going through the tenancy signing flow." }
     ]
+  },
+  {
+    id: 5,
+    name: "Payment + RNPM",
+    category: "payment",
+    status: "dev",
+    desc: "First payment by card with future payment setup, plus RNPM service offered at the point of payment. Initiates the qualification journey when selected.",
+    auth: "Partner JWT Token",
+    builtIn: "Flutter",
+    fileTypes: null,
+    limitations: null,
+    customers: [
+      { name: "Modon", journey: "Tenant completes first payment and sets up future payments, then is presented with the option to switch to RNPM — triggering the qualification journey if they choose to proceed." }
+    ]
+  },
+  {
+    id: 6,
+    name: "Onboarding API",
+    category: "api",
+    status: "dev",
+    desc: "Allows a client server to post key onboarding data programmatically to Keyper systems — including tenancy details, unit details, payment schedule, landlord and tenant information.",
+    auth: "Partner JWT Token",
+    builtIn: null,
+    fileTypes: null,
+    limitations: null,
+    customers: [
+      { name: "Modon", journey: "Modon's backend sends tenancy and tenant data directly to Keyper at the point of lease creation, removing the need for manual data entry and keeping records in sync." }
+    ]
+  },
+  {
+    id: 7,
+    name: "Notification Engine",
+    category: "notification",
+    status: "live",
+    desc: "Enables partners to receive real-time webhook notifications for key events across the platform.",
+    auth: "Verification RS256 JWT signatures",
+    builtIn: null,
+    fileTypes: null,
+    limitations: "Consumers must implement a webhook endpoint capable of receiving an HTTPS POST request",
+    customers: [
+      { name: "Property Finder", journey: "Property Finder receives real-time event notifications — such as document uploads, payment confirmations, and signing completions — via their registered webhook endpoint." }
+    ]
   }
 ];
 
 const partners = [
-  { id: 1, name: "Property Finder", type: "Partner", contact: "", componentIds: [1, 2, 3] },
-  { id: 2, name: "Modon", type: "Customer", contact: "", componentIds: [4] }
+  { id: 1, name: "Property Finder", type: "Partner", componentIds: [1, 2, 3, 7] },
+  { id: 2, name: "Modon", type: "Customer", componentIds: [1, 4, 5, 6] }
 ];
 
 const filterDefs = [
@@ -231,13 +275,21 @@ const filterDefs = [
   { key: "documents", label: "Documents" },
   { key: "signing", label: "Signing" },
   { key: "qualification", label: "Qualification" },
-  { key: "payment", label: "Payment" }
+  { key: "payment", label: "Payment" },
+  { key: "api", label: "API" },
+  { key: "notification", label: "Notifications" }
 ];
 
-let activeFilter = "all";
+const catBadge = {
+  documents: "badge-documents", signing: "badge-signing", qualification: "badge-qualification",
+  payment: "badge-payment", api: "badge-api", notification: "badge-notification"
+};
+const catLabel = {
+  documents: "Documents", signing: "Signing", qualification: "Qualification",
+  payment: "Payment", api: "API", notification: "Notifications"
+};
 
-const catBadge = { documents: "badge-documents", signing: "badge-signing", qualification: "badge-qualification", payment: "badge-payment" };
-const catLabel = { documents: "Documents", signing: "Signing", qualification: "Qualification", payment: "Payment" };
+let activeFilter = "all";
 
 function renderFilters() {
   document.getElementById("filters").innerHTML = filterDefs.map(f =>
@@ -253,7 +305,8 @@ function renderCatalogue() {
     if (activeFilter === "live" && c.status !== "live") return false;
     if (activeFilter === "dev" && c.status !== "dev") return false;
     if (!["all","live","dev"].includes(activeFilter) && c.category !== activeFilter) return false;
-    if (q && !c.name.toLowerCase().includes(q) && !c.desc.toLowerCase().includes(q)) return false;
+    if (q && !c.name.toLowerCase().includes(q) && !c.desc.toLowerCase().includes(q) &&
+        !c.customers.some(cu => cu.name.toLowerCase().includes(q))) return false;
     return true;
   });
 
@@ -277,7 +330,7 @@ function renderCatalogue() {
       <div class="card-customers">${c.customers.map(cu => `<span class="customer-chip">${cu.name}</span>`).join("")}</div>
       <div class="card-footer">
         <div class="card-meta-row">
-          <span class="meta-tag">${c.builtIn}</span>
+          ${c.builtIn ? `<span class="meta-tag">${c.builtIn}</span>` : ""}
           <span class="meta-tag">${c.auth}</span>
         </div>
         <span class="card-arrow">→</span>
@@ -303,7 +356,7 @@ function openModal(id) {
     <hr class="modal-divider" />
     <div class="detail-grid">
       <div class="detail-item"><div class="modal-label">Authentication</div><div class="modal-text">${c.auth}</div></div>
-      <div class="detail-item"><div class="modal-label">Built in</div><div class="modal-text">${c.builtIn}</div></div>
+      ${c.builtIn ? `<div class="detail-item"><div class="modal-label">Built in</div><div class="modal-text">${c.builtIn}</div></div>` : ""}
       ${c.fileTypes ? `<div class="detail-item"><div class="modal-label">Supported file types</div><div class="modal-text">${c.fileTypes}</div></div>` : ""}
       ${c.limitations ? `<div class="detail-item"><div class="modal-label">Limitations</div><div class="modal-text">${c.limitations}</div></div>` : ""}
     </div>
@@ -345,7 +398,6 @@ function renderPartners() {
           <span class="partner-type">${p.type}</span>
         </div>
         <div class="partner-comps">${compTags}</div>
-        ${p.contact ? `<div class="partner-contact">${p.contact}</div>` : ""}
       </div>
     `;
   }).join("");
