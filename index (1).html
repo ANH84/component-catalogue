@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Component Catalogue</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --surface2: #F0EEE8;
+    --border: #E2DED6;
+    --border-strong: #C8C3B8;
+    --text: #1A1916;
+    --text-muted: #6B6760;
+    --text-faint: #9E9B96;
+    --payments-bg: #EAF0FB; --payments-text: #1A4FA3; --payments-border: #AABFE8;
+    --rental-bg: #E6F4EE; --rental-text: #0D6645; --rental-border: #A8D9BF;
+    --identity-bg: #FDF3E3; --identity-text: #8A5200; --identity-border: #F0C97A;
+    --live-bg: #E6F4EE; --live-text: #0D6645; --live-border: #A8D9BF; --live-dot: #22C07A;
+    --dev-bg: #F5F0FB; --dev-text: #5B2FA0; --dev-border: #C9AEED; --dev-dot: #9B6FD4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .nav-logo span { font-family: 'DM Mono', monospace; font-size: 11px; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; color: var(--text-faint); font-weight: 400; }
+  .nav-tabs { display: flex; height: 100%; }
+  .nav-tab { height: 100%; display: flex; align-items: center; padding: 0 1.25rem; font-size: 14px; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; user-select: none; }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--text); border-bottom-color: var(--text); font-weight: 500; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+  .hero { padding: 2.5rem 2rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .hero h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.7px; margin-bottom: 6px; }
+  .hero p { font-size: 14px; color: var(--text-muted); line-height: 1.6; max-width: 480px; }
+
+  .toolbar { max-width: 1100px; margin: 0 auto; padding: 0 2rem 1.25rem; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 320px; }
+  .search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-faint); pointer-events: none; }
+  .search-wrap input { width: 100%; height: 38px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); padding: 0 12px 0 36px; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; transition: border-color 0.15s; }
+  .search-wrap input:focus { border-color: var(--border-strong); }
+  .search-wrap input::placeholder { color: var(--text-faint); }
+  .filters { display: flex; gap: 7px; flex-wrap: wrap; }
+  .pill { height: 38px; padding: 0 15px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text-muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .pill:hover { border-color: var(--border-strong); color: var(--text); }
+  .pill.active { background: var(--text); border-color: var(--text); color: #fff; font-weight: 500; }
+
+  .result-count { max-width: 1100px; margin: 0 auto; padding: 0 2rem 0.75rem; font-size: 12px; color: var(--text-faint); font-family: 'DM Mono', monospace; }
+
+  .grid { max-width: 1100px; margin: 0 auto; padding: 0 2rem 3rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem 1.5rem; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; display: flex; flex-direction: column; gap: 11px; }
+  .card:hover { border-color: var(--border-strong); box-shadow: 0 2px 14px rgba(0,0,0,0.06); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card-name { font-size: 14.5px; font-weight: 500; color: var(--text); line-height: 1.4; letter-spacing: -0.2px; }
+  .card-badges { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; flex-shrink: 0; }
+
+  .badge { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; white-space: nowrap; font-family: 'DM Mono', monospace; letter-spacing: 0.2px; }
+  .badge-documents { background: var(--payments-bg); color: var(--payments-text); border: 1px solid var(--payments-border); }
+  .badge-signing { background: var(--rental-bg); color: var(--rental-text); border: 1px solid var(--rental-border); }
+  .badge-qualification { background: var(--identity-bg); color: var(--identity-text); border: 1px solid var(--identity-border); }
+  .badge-general { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+
+  .status-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-family: 'DM Mono', monospace; border-radius: 20px; padding: 3px 9px; }
+  .status-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .status-live { background: var(--live-bg); color: var(--live-text); border: 1px solid var(--live-border); }
+  .status-live::before { background: var(--live-dot); }
+  .status-dev { background: var(--dev-bg); color: var(--dev-text); border: 1px solid var(--dev-border); }
+  .status-dev::before { background: var(--dev-dot); opacity: 0.7; }
+
+  .card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+  .card-customers { display: flex; gap: 6px; flex-wrap: wrap; }
+  .customer-chip { font-size: 11px; padding: 3px 9px; background: var(--surface2); color: var(--text-muted); border-radius: 5px; border: 1px solid var(--border); font-family: 'DM Mono', monospace; }
+  .card-footer { border-top: 1px solid var(--border); padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .card-meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .meta-tag { font-size: 11px; padding: 2px 8px; background: var(--surface2); color: var(--text-faint); border-radius: 4px; font-family: 'DM Mono', monospace; }
+  .card-arrow { font-size: 15px; color: var(--text-faint); transition: transform 0.15s; }
+  .card:hover .card-arrow { transform: translateX(3px); }
+  .empty { grid-column: 1/-1; text-align: center; padding: 4rem 1rem; color: var(--text-faint); font-size: 14px; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(26,25,22,0.5); z-index: 200; align-items: center; justify-content: center; padding: 2rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border-radius: 16px; border: 1px solid var(--border); max-width: 640px; width: 100%; max-height: 88vh; overflow-y: auto; padding: 2rem; position: relative; }
+  .modal-close { position: absolute; top: 1.25rem; right: 1.25rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; width: 30px; height: 30px; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: all 0.15s; }
+  .modal-close:hover { background: var(--border); color: var(--text); }
+  .modal-name { font-size: 20px; font-weight: 600; letter-spacing: -0.4px; margin-bottom: 10px; padding-right: 2.5rem; line-height: 1.3; }
+  .modal-meta { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .modal-section { margin-bottom: 1.4rem; }
+  .modal-label { font-size: 11px; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-faint); margin-bottom: 7px; }
+  .modal-text { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+  .modal-divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.4rem; }
+  .detail-item { background: var(--surface2); border-radius: 8px; padding: 10px 14px; }
+  .detail-item .modal-label { margin-bottom: 4px; }
+  .detail-item .modal-text { font-size: 13px; }
+  .customer-journey-card { background: var(--surface2); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+  .cj-name { font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+  .cj-text { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+  .stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; }
+  .stat-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-faint); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 28px; font-weight: 600; letter-spacing: -1px; color: var(--text); }
+  .section-label { font-size: 11px; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-faint); margin-bottom: 1rem; }
+  .partners-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+  .partner-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem 1.5rem; transition: border-color 0.15s; }
+  .partner-card:hover { border-color: var(--border-strong); }
+  .partner-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .partner-name { font-size: 15px; font-weight: 500; letter-spacing: -0.2px; }
+  .partner-type { font-size: 11px; font-family: 'DM Mono', monospace; padding: 3px 9px; border-radius: 20px; background: var(--surface2); color: var(--text-faint); border: 1px solid var(--border); }
+  .partner-comps { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .partner-comp { font-size: 11px; font-family: 'DM Mono', monospace; padding: 3px 9px; border-radius: 5px; background: var(--rental-bg); color: var(--rental-text); border: 1px solid var(--rental-border); }
+  .partner-contact { font-size: 12px; color: var(--text-faint); font-family: 'DM Mono', monospace; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Components <span>catalogue</span></div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showPage('catalogue', this)">Catalogue</div>
+    <div class="nav-tab" onclick="showPage('partners', this)">Partners & Customers</div>
+  </div>
+</nav>
+
+<div class="page active" id="page-catalogue">
+  <div class="hero">
+    <h1>Component catalogue</h1>
+    <p>All available web components — live builds and those in development.</p>
+  </div>
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L13.5 13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input type="text" id="search" placeholder="Search components..." oninput="renderCatalogue()" />
+    </div>
+    <div class="filters" id="filters"></div>
+  </div>
+  <div class="result-count" id="result-count"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="page" id="page-partners">
+  <div class="container">
+    <div class="stats-bar" id="stats-bar"></div>
+    <div class="section-label">Partners & customers</div>
+    <div class="partners-grid" id="partners-grid"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+const components = [
+  {
+    id: 1,
+    name: "Documents Web Component",
+    category: "documents",
+    status: "live",
+    desc: "Designed to collect and manage documents from tenants for RNPM applications.",
+    auth: "Partner JWT Token",
+    builtIn: "Flutter",
+    fileTypes: "PDF, JPG, JPEG, PNG",
+    limitations: "Max file size 5MB",
+    customers: [
+      { name: "Property Finder", journey: "Tenants upload supporting documents as part of the RNPM application process — including payslips, bank statements and ID." }
+    ]
+  },
+  {
+    id: 2,
+    name: "Signing Web Component",
+    category: "signing",
+    status: "live",
+    desc: "Review rental terms, confirm payment plan, digitally sign tenancy contract, and complete first payment.",
+    auth: "Partner JWT Token",
+    builtIn: "Flutter",
+    fileTypes: null,
+    limitations: null,
+    customers: [
+      { name: "Property Finder", journey: "Tenant reviews rental terms and payment plan, digitally signs the tenancy contract, and completes their first payment — all in a single guided session." }
+    ]
+  },
+  {
+    id: 3,
+    name: "Qualification Web Component",
+    category: "qualification",
+    status: "live",
+    desc: "Collects employment information and verifies income through bank account linking via Lean, or document upload for bank statements.",
+    auth: "Partner JWT Token",
+    builtIn: "Flutter",
+    fileTypes: "PDF, JPG, JPEG, PNG",
+    limitations: "Max file size 5MB",
+    customers: [
+      { name: "Property Finder", journey: "Applicant enters employment details, then verifies income either by linking their bank account via Lean or by uploading bank statements and payslips." }
+    ]
+  }
+];
+
+const partners = [
+  { id: 1, name: "Property Finder", type: "Partner", contact: "", componentIds: [1, 2, 3] }
+];
+
+const filterDefs = [
+  { key: "all", label: "All" },
+  { key: "live", label: "Live" },
+  { key: "dev", label: "In development" },
+  { key: "documents", label: "Documents" },
+  { key: "signing", label: "Signing" },
+  { key: "qualification", label: "Qualification" }
+];
+
+let activeFilter = "all";
+
+const catBadge = { documents: "badge-documents", signing: "badge-signing", qualification: "badge-qualification" };
+const catLabel = { documents: "Documents", signing: "Signing", qualification: "Qualification" };
+
+function renderFilters() {
+  document.getElementById("filters").innerHTML = filterDefs.map(f =>
+    `<button class="pill${activeFilter === f.key ? " active" : ""}" onclick="setFilter('${f.key}')">${f.label}</button>`
+  ).join("");
+}
+
+function setFilter(key) { activeFilter = key; renderFilters(); renderCatalogue(); }
+
+function renderCatalogue() {
+  const q = (document.getElementById("search").value || "").toLowerCase().trim();
+  const filtered = components.filter(c => {
+    if (activeFilter === "live" && c.status !== "live") return false;
+    if (activeFilter === "dev" && c.status !== "dev") return false;
+    if (!["all","live","dev"].includes(activeFilter) && c.category !== activeFilter) return false;
+    if (q && !c.name.toLowerCase().includes(q) && !c.desc.toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  document.getElementById("result-count").textContent = `${filtered.length} component${filtered.length !== 1 ? "s" : ""}`;
+
+  if (!filtered.length) {
+    document.getElementById("grid").innerHTML = `<div class="empty">No components match your search.</div>`;
+    return;
+  }
+
+  document.getElementById("grid").innerHTML = filtered.map(c => `
+    <div class="card" onclick="openModal(${c.id})">
+      <div class="card-top">
+        <div class="card-name">${c.name}</div>
+        <div class="card-badges">
+          <span class="badge ${catBadge[c.category] || 'badge-general'}">${catLabel[c.category] || c.category}</span>
+          <span class="status-pill status-${c.status === 'live' ? 'live' : 'dev'}">${c.status === 'live' ? 'live' : 'in development'}</span>
+        </div>
+      </div>
+      <div class="card-desc">${c.desc}</div>
+      <div class="card-customers">${c.customers.map(cu => `<span class="customer-chip">${cu.name}</span>`).join("")}</div>
+      <div class="card-footer">
+        <div class="card-meta-row">
+          <span class="meta-tag">${c.builtIn}</span>
+          <span class="meta-tag">${c.auth}</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>
+  `).join("");
+}
+
+function openModal(id) {
+  const c = components.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById("modal-content").innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-name">${c.name}</div>
+    <div class="modal-meta">
+      <span class="badge ${catBadge[c.category] || 'badge-general'}">${catLabel[c.category] || c.category}</span>
+      <span class="status-pill status-${c.status === 'live' ? 'live' : 'dev'}">${c.status === 'live' ? 'live' : 'in development'}</span>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">What it does</div>
+      <div class="modal-text">${c.desc}</div>
+    </div>
+    <hr class="modal-divider" />
+    <div class="detail-grid">
+      <div class="detail-item"><div class="modal-label">Authentication</div><div class="modal-text">${c.auth}</div></div>
+      <div class="detail-item"><div class="modal-label">Built in</div><div class="modal-text">${c.builtIn}</div></div>
+      ${c.fileTypes ? `<div class="detail-item"><div class="modal-label">Supported file types</div><div class="modal-text">${c.fileTypes}</div></div>` : ""}
+      ${c.limitations ? `<div class="detail-item"><div class="modal-label">Limitations</div><div class="modal-text">${c.limitations}</div></div>` : ""}
+    </div>
+    <hr class="modal-divider" />
+    <div class="modal-section">
+      <div class="modal-label">Customer journeys</div>
+      ${c.customers.map(cu => `
+        <div class="customer-journey-card">
+          <div class="cj-name">${cu.name}</div>
+          <div class="cj-text">${cu.journey}</div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+  document.getElementById("modal-overlay").classList.add("open");
+}
+
+function closeModal() { document.getElementById("modal-overlay").classList.remove("open"); }
+function handleOverlayClick(e) { if (e.target === document.getElementById("modal-overlay")) closeModal(); }
+
+function renderPartners() {
+  const liveCount = components.filter(c => c.status === "live").length;
+  const devCount = components.filter(c => c.status !== "live").length;
+  document.getElementById("stats-bar").innerHTML = `
+    <div class="stat-card"><div class="stat-label">Components</div><div class="stat-value">${components.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Live</div><div class="stat-value">${liveCount}</div></div>
+    <div class="stat-card"><div class="stat-label">In development</div><div class="stat-value">${devCount}</div></div>
+    <div class="stat-card"><div class="stat-label">Partners & customers</div><div class="stat-value">${partners.length}</div></div>
+  `;
+  document.getElementById("partners-grid").innerHTML = partners.map(p => {
+    const compTags = p.componentIds.map(cid => {
+      const comp = components.find(c => c.id === cid);
+      return comp ? `<span class="partner-comp">${comp.name}</span>` : "";
+    }).join("");
+    return `
+      <div class="partner-card">
+        <div class="partner-header">
+          <div class="partner-name">${p.name}</div>
+          <span class="partner-type">${p.type}</span>
+        </div>
+        <div class="partner-comps">${compTags}</div>
+        ${p.contact ? `<div class="partner-contact">${p.contact}</div>` : ""}
+      </div>
+    `;
+  }).join("");
+}
+
+function showPage(name, tab) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+  document.getElementById("page-" + name).classList.add("active");
+  tab.classList.add("active");
+  if (name === "partners") renderPartners();
+}
+
+renderFilters();
+renderCatalogue();
+</script>
+</body>
+</html>
