@@ -21,6 +21,8 @@
     --purple-bg: #F5F0FB; --purple-text: #5B2FA0; --purple-border: #C9AEED;
     --teal-bg: #E1F5F2; --teal-text: #0F6E5F; --teal-border: #9FD9CF;
     --coral-bg: #FAECE7; --coral-text: #8A3010; --coral-border: #F5C4B3;
+    --slate-bg: #EEEDF4; --slate-text: #3A3770; --slate-border: #BBBAE0;
+    --rose-bg: #FAE8F0; --rose-text: #8A1045; --rose-border: #F0AACE;
     --live-dot: #22C07A;
     --dev-dot: #9B6FD4;
   }
@@ -64,12 +66,14 @@
   .card-badges { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; flex-shrink: 0; }
 
   .badge { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; white-space: nowrap; font-family: 'DM Mono', monospace; letter-spacing: 0.2px; }
-  .badge-documents  { background: var(--blue-bg);   color: var(--blue-text);   border: 1px solid var(--blue-border); }
-  .badge-signing    { background: var(--green-bg);  color: var(--green-text);  border: 1px solid var(--green-border); }
-  .badge-qualification { background: var(--amber-bg); color: var(--amber-text); border: 1px solid var(--amber-border); }
-  .badge-payment    { background: var(--purple-bg); color: var(--purple-text); border: 1px solid var(--purple-border); }
-  .badge-api        { background: var(--teal-bg);   color: var(--teal-text);   border: 1px solid var(--teal-border); }
-  .badge-notification { background: var(--coral-bg); color: var(--coral-text); border: 1px solid var(--coral-border); }
+  .badge-orchestrator { background: var(--slate-bg); color: var(--slate-text); border: 1px solid var(--slate-border); }
+  .badge-documents    { background: var(--blue-bg);  color: var(--blue-text);  border: 1px solid var(--blue-border); }
+  .badge-signing      { background: var(--green-bg); color: var(--green-text); border: 1px solid var(--green-border); }
+  .badge-qualification{ background: var(--amber-bg); color: var(--amber-text); border: 1px solid var(--amber-border); }
+  .badge-payment      { background: var(--purple-bg);color: var(--purple-text);border: 1px solid var(--purple-border); }
+  .badge-directdebit  { background: var(--rose-bg);  color: var(--rose-text);  border: 1px solid var(--rose-border); }
+  .badge-api          { background: var(--teal-bg);  color: var(--teal-text);  border: 1px solid var(--teal-border); }
+  .badge-events       { background: var(--coral-bg); color: var(--coral-text); border: 1px solid var(--coral-border); }
 
   .status-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-family: 'DM Mono', monospace; border-radius: 20px; padding: 3px 9px; }
   .status-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
@@ -81,6 +85,7 @@
   .card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
   .card-customers { display: flex; gap: 6px; flex-wrap: wrap; }
   .customer-chip { font-size: 11px; padding: 3px 9px; background: var(--surface2); color: var(--text-muted); border-radius: 5px; border: 1px solid var(--border); font-family: 'DM Mono', monospace; }
+  .no-customer { font-size: 11px; color: var(--text-faint); font-style: italic; font-family: 'DM Mono', monospace; }
   .card-footer { border-top: 1px solid var(--border); padding-top: 10px; display: flex; justify-content: space-between; align-items: center; }
   .card-meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .meta-tag { font-size: 11px; padding: 2px 8px; background: var(--surface2); color: var(--text-faint); border-radius: 4px; font-family: 'DM Mono', monospace; }
@@ -119,7 +124,6 @@
   .partner-type { font-size: 11px; font-family: 'DM Mono', monospace; padding: 3px 9px; border-radius: 20px; background: var(--surface2); color: var(--text-faint); border: 1px solid var(--border); }
   .partner-comps { display: flex; gap: 6px; flex-wrap: wrap; }
   .partner-comp { font-size: 11px; font-family: 'DM Mono', monospace; padding: 3px 9px; border-radius: 5px; background: var(--green-bg); color: var(--green-text); border: 1px solid var(--green-border); }
-  .partner-contact { font-size: 12px; color: var(--text-faint); font-family: 'DM Mono', monospace; margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -164,6 +168,20 @@
 const components = [
   {
     id: 1,
+    name: "Orchestrator",
+    category: "orchestrator",
+    status: "dev",
+    desc: "Main point of entry. Routes the tenant to the correct components based on the current tenancy or application status.",
+    auth: null,
+    builtIn: null,
+    fileTypes: null,
+    limitations: null,
+    customers: [
+      { name: "Modon", journey: "The Orchestrator acts as the single entry point for Modon tenants, assessing their current status and directing them to the right component — whether that's payment, qualification, signing, or document upload." }
+    ]
+  },
+  {
+    id: 2,
     name: "Documents Web Component",
     category: "documents",
     status: "live",
@@ -178,21 +196,21 @@ const components = [
     ]
   },
   {
-    id: 2,
+    id: 3,
     name: "Signing Web Component",
     category: "signing",
     status: "live",
-    desc: "Review rental terms, confirm payment plan, digitally sign tenancy contract, and complete first payment.",
+    desc: "Review rental terms, confirm payment plan, digitally sign tenancy or TPMA contract, and make first payment.",
     auth: "Partner JWT Token",
     builtIn: "Flutter",
     fileTypes: null,
     limitations: null,
     customers: [
-      { name: "Property Finder", journey: "Tenant reviews rental terms and payment plan, digitally signs the tenancy contract, and completes their first payment — all in a single guided session." }
+      { name: "Property Finder", journey: "Tenant reviews rental terms and payment plan, digitally signs the tenancy or TPMA contract, and completes their first payment — all in a single guided session." }
     ]
   },
   {
-    id: 3,
+    id: 4,
     name: "Qualification Web Component",
     category: "qualification",
     status: "live",
@@ -206,35 +224,33 @@ const components = [
     ]
   },
   {
-    id: 4,
+    id: 5,
     name: "Payment Component",
     category: "payment",
     status: "dev",
-    desc: "Payment without tenancy signing. Offers first payment by card and sets up subsequent future payments via card or Direct Debit.",
+    desc: "Payment without tenancy signing. Offers first payment by card and sets up subsequent future payments. Manages payment methods and services.",
     auth: "Partner JWT Token",
     builtIn: "Flutter",
     fileTypes: null,
     limitations: null,
     customers: [
-      { name: "Modon", journey: "Tenant makes their first payment by card and sets up a recurring payment method — either card or Direct Debit — for future rent, without going through the tenancy signing flow." }
-    ]
-  },
-  {
-    id: 5,
-    name: "Payment + RNPM",
-    category: "payment",
-    status: "dev",
-    desc: "First payment by card with future payment setup, plus RNPM service offered at the point of payment. Initiates the qualification journey when selected.",
-    auth: "Partner JWT Token",
-    builtIn: "Flutter",
-    fileTypes: null,
-    limitations: null,
-    customers: [
-      { name: "Modon", journey: "Tenant completes first payment and sets up future payments, then is presented with the option to switch to RNPM — triggering the qualification journey if they choose to proceed." }
+      { name: "Modon", journey: "Tenant makes their first payment by card and sets up a recurring payment method for future rent, without going through the tenancy signing flow. Payment methods and services are managed within the component." }
     ]
   },
   {
     id: 6,
+    name: "Direct Debit",
+    category: "directdebit",
+    status: "dev",
+    desc: "Captures a tenant IBAN and manages the Direct Debit mandate creation and signing journey.",
+    auth: null,
+    builtIn: null,
+    fileTypes: null,
+    limitations: null,
+    customers: []
+  },
+  {
+    id: 7,
     name: "Onboarding API",
     category: "api",
     status: "dev",
@@ -248,9 +264,9 @@ const components = [
     ]
   },
   {
-    id: 7,
-    name: "Notification Engine",
-    category: "notification",
+    id: 8,
+    name: "Events Engine",
+    category: "events",
     status: "live",
     desc: "Enables partners to receive real-time webhook notifications for key events across the platform.",
     auth: "Verification RS256 JWT signatures",
@@ -264,29 +280,33 @@ const components = [
 ];
 
 const partners = [
-  { id: 1, name: "Property Finder", type: "Partner", componentIds: [1, 2, 3, 7] },
-  { id: 2, name: "Modon", type: "Customer", componentIds: [1, 4, 5, 6] }
+  { id: 1, name: "Property Finder", type: "Partner", componentIds: [2, 3, 4, 8] },
+  { id: 2, name: "Modon", type: "Customer", componentIds: [1, 2, 5, 7] }
 ];
 
 const filterDefs = [
   { key: "all", label: "All" },
   { key: "live", label: "Live" },
   { key: "dev", label: "In development" },
+  { key: "orchestrator", label: "Orchestrator" },
   { key: "documents", label: "Documents" },
   { key: "signing", label: "Signing" },
   { key: "qualification", label: "Qualification" },
   { key: "payment", label: "Payment" },
+  { key: "directdebit", label: "Direct Debit" },
   { key: "api", label: "API" },
-  { key: "notification", label: "Notifications" }
+  { key: "events", label: "Events" }
 ];
 
 const catBadge = {
-  documents: "badge-documents", signing: "badge-signing", qualification: "badge-qualification",
-  payment: "badge-payment", api: "badge-api", notification: "badge-notification"
+  orchestrator: "badge-orchestrator", documents: "badge-documents", signing: "badge-signing",
+  qualification: "badge-qualification", payment: "badge-payment", directdebit: "badge-directdebit",
+  api: "badge-api", events: "badge-events"
 };
 const catLabel = {
-  documents: "Documents", signing: "Signing", qualification: "Qualification",
-  payment: "Payment", api: "API", notification: "Notifications"
+  orchestrator: "Orchestrator", documents: "Documents", signing: "Signing",
+  qualification: "Qualification", payment: "Payment", directdebit: "Direct Debit",
+  api: "API", events: "Events"
 };
 
 let activeFilter = "all";
@@ -327,11 +347,15 @@ function renderCatalogue() {
         </div>
       </div>
       <div class="card-desc">${c.desc}</div>
-      <div class="card-customers">${c.customers.map(cu => `<span class="customer-chip">${cu.name}</span>`).join("")}</div>
+      <div class="card-customers">
+        ${c.customers.length
+          ? c.customers.map(cu => `<span class="customer-chip">${cu.name}</span>`).join("")
+          : `<span class="no-customer">No customers assigned yet</span>`}
+      </div>
       <div class="card-footer">
         <div class="card-meta-row">
           ${c.builtIn ? `<span class="meta-tag">${c.builtIn}</span>` : ""}
-          <span class="meta-tag">${c.auth}</span>
+          ${c.auth ? `<span class="meta-tag">${c.auth}</span>` : ""}
         </div>
         <span class="card-arrow">→</span>
       </div>
@@ -353,22 +377,26 @@ function openModal(id) {
       <div class="modal-label">What it does</div>
       <div class="modal-text">${c.desc}</div>
     </div>
-    <hr class="modal-divider" />
-    <div class="detail-grid">
-      <div class="detail-item"><div class="modal-label">Authentication</div><div class="modal-text">${c.auth}</div></div>
-      ${c.builtIn ? `<div class="detail-item"><div class="modal-label">Built in</div><div class="modal-text">${c.builtIn}</div></div>` : ""}
-      ${c.fileTypes ? `<div class="detail-item"><div class="modal-label">Supported file types</div><div class="modal-text">${c.fileTypes}</div></div>` : ""}
-      ${c.limitations ? `<div class="detail-item"><div class="modal-label">Limitations</div><div class="modal-text">${c.limitations}</div></div>` : ""}
-    </div>
+    ${c.auth || c.builtIn || c.fileTypes || c.limitations ? `
+      <hr class="modal-divider" />
+      <div class="detail-grid">
+        ${c.auth ? `<div class="detail-item"><div class="modal-label">Authentication</div><div class="modal-text">${c.auth}</div></div>` : ""}
+        ${c.builtIn ? `<div class="detail-item"><div class="modal-label">Built in</div><div class="modal-text">${c.builtIn}</div></div>` : ""}
+        ${c.fileTypes ? `<div class="detail-item"><div class="modal-label">Supported file types</div><div class="modal-text">${c.fileTypes}</div></div>` : ""}
+        ${c.limitations ? `<div class="detail-item"><div class="modal-label">Limitations</div><div class="modal-text">${c.limitations}</div></div>` : ""}
+      </div>
+    ` : ""}
     <hr class="modal-divider" />
     <div class="modal-section">
       <div class="modal-label">Customer journeys</div>
-      ${c.customers.map(cu => `
-        <div class="customer-journey-card">
-          <div class="cj-name">${cu.name}</div>
-          <div class="cj-text">${cu.journey}</div>
-        </div>
-      `).join("")}
+      ${c.customers.length
+        ? c.customers.map(cu => `
+            <div class="customer-journey-card">
+              <div class="cj-name">${cu.name}</div>
+              <div class="cj-text">${cu.journey}</div>
+            </div>`).join("")
+        : `<div style="font-size:13px;color:var(--text-faint);font-style:italic;">No customer journeys documented yet.</div>`
+      }
     </div>
   `;
   document.getElementById("modal-overlay").classList.add("open");
